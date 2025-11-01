@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>BPGAMES - Dominoes</title>
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Orbitron:wght@700&family=Roboto+Mono&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/public/play/styles/index.css">
+<script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://aistudiocdn.com/react-dom@^18.3.1/",
+    "react/": "https://aistudiocdn.com/react@^18.3.1/",
+    "react": "https://aistudiocdn.com/react@^18.3.1",
+    "vite": "https://aistudiocdn.com/vite@^7.1.12",
+    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.0"
+  }
+}
+</script>
+  <script type="module" crossorigin src="assets/index-Cs0SeUxz.js"></script>
+  <link rel="stylesheet" crossorigin href="assets/index-CZCXoT2u.css">
+</head>
+<body>
+<div class="background-gradient"></div>
+
+<div class="main-content">
+    <header class="header">
+        <div class="container">
+            <div class="navbar">
+                <a href="/" class="logo">
+                    <span class="logo-accent">BP</span>GAMES
+                </a>
+                <nav class="desktop-nav">
+                    <div class="nav-links">
+                      <!--  <a href="#" class="nav-link">Home</a>
+                        <a href="#" class="nav-link">Games</a>
+                        <a href="#" class="nav-link">Community</a>
+                        <a href="#" class="nav-link">Support</a>-->
+                    </div>
+                </nav>
+                <div class="desktop-auth">
+                    <a href="../login.html" class="nav-link">Login</a>
+                    <a href="../signup.html" class="btn btn-primary">Sign Up</a>
+                </div>
+                <div class="mobile-menu-toggle">
+                    <button id="mobile-menu-button" type="button" class="mobile-menu-btn" aria-controls="mobile-menu" aria-expanded="false">
+                        <span class="sr-only">Open main menu</span>
+                        <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+         <div class="mobile-menu hidden" id="mobile-menu">
+            <div class="mobile-auth-links">
+                <a href="../login.html" class="nav-link">Login</a>
+                <a href="../signup.html" class="btn btn-primary">Sign Up</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero-section">
+            <div class="hero-bg-image">
+                <div class="hero-overlay"></div>
+            </div>
+            <div class="hero-content container">
+                <div id="root"></div>
+            </div>
+        </section>    
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p class="footer-copyright">&copy; 2024 Breaking Point Games. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</div>
+<script>
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    if(mobileMenuButton && mobileMenu) {
+        mobileMenuButton.addEventListener('click', () => {
+            const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
+            mobileMenuButton.setAttribute('aria-expanded', !isExpanded);
+            mobileMenu.classList.toggle('hidden');
+        });
+    }
+</script>
+</body>
+</html>

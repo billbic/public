@@ -1,0 +1,526 @@
+
+
+/* --- GLOBAL STYLES --- */
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Roboto Mono', monospace;
+  background-color: #121212;
+  color: #e0e0e0;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.background-gradient {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse at top, #3a2c41, #121212 70%), radial-gradient(ellipse at bottom, #2c3e50, #121212 70%);
+  z-index: -1;
+  opacity: 0.8;
+}
+
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.btn {
+  display: inline-block;
+  padding: .75rem 1.5rem;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 700;
+  transition: all .3s ease;
+  font-family: 'Bebas Neue', cursive;
+  letter-spacing: 1px;
+  font-size: 1.1rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-align: center;
+}
+
+.btn-primary {
+    background-color: #f97316;
+    color: #121212;
+    border-color: #f97316;
+}
+
+.btn-primary:hover {
+    background-color: transparent;
+    color: #f97316;
+}
+
+/* --- HEADER --- */
+.header {
+    background-color: #121212cc;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);    
+    border-bottom: 1px solid rgb(118 118 118 / 38%);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 1rem 0;
+}
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.logo-accent {
+    color: #f97316;
+}
+
+.desktop-nav { display: none; }
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+.nav-link {
+  text-decoration: none;
+  color: #e0e0e0;
+  font-size: 1.1rem;
+  font-weight: 500;
+  position: relative;
+  transition: color .3s ease;
+  padding: 0.5rem 0;
+}
+.nav-link:after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #f97316;
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform .3s ease-out;
+}
+.nav-link:hover {
+    color: #f97316;
+}
+.nav-link:hover:after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+.desktop-auth { 
+    display: none;
+    align-items: center;
+    gap: 1.5rem;
+}
+.desktop-auth .nav-link:after {
+    display: none; /* Don't want the underline effect on the login button */
+}
+.desktop-auth .nav-link:hover {
+    color: #f97316;
+}
+
+
+.mobile-menu-toggle { display: flex; }
+.mobile-menu-btn {
+  background: none;
+  border: none;
+  color: #e0e0e0;
+  cursor: pointer;
+}
+.menu-icon {
+  width: 2rem;
+  height: 2rem;
+}
+.mobile-menu {
+  background-color: #121212f2;
+  padding: 2rem;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  border-bottom: 1px solid rgba(255, 59, 141, .2);
+}
+.mobile-nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+}
+.mobile-nav-link {
+  text-decoration: none;
+  color: #e0e0e0;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+.mobile-auth {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, .1);
+}
+.mobile-auth-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+.mobile-auth-link {
+  text-decoration: none;
+  color: #e0e0e0;
+  font-size: 1.2rem;
+}
+.mobile-signup {
+  width: 100%;
+  text-align: center;
+}
+
+
+/* --- HERO SECTION --- */
+.hero-section {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #e0e0e0;
+    padding: 2rem 1rem; /* Restored padding */
+    flex-grow: 1;
+}
+.hero-bg-image {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: transparent;
+    pointer-events: none;
+}
+.hero-overlay {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: #12121280;
+}
+.hero-content {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+/* --- PHASER GAME SPECIFIC STYLES --- */
+#root {
+    width: 800px;  /* Fixed width */
+    height: 600px; /* Fixed height */
+    position: relative; /* Crucial for positioning child DOM elements like the invite popup */
+}
+
+/* 
+  --- CORRECT FULLSCREEN CENTERING ---
+  This method uses CSS Grid to reliably center the game canvas. When #root enters
+  fullscreen, we turn it into a grid container and center its child (the canvas).
+  This is often more robust than Flexbox for this specific use case.
+*/
+#root:fullscreen,
+#root:-webkit-full-screen,
+#root:-moz-full-screen,
+#root:-ms-fullscreen {
+    width: 100% !important;
+    height: 100% !important;
+    background-color: #000;
+    
+    /* Use Grid to center the child canvas */
+    display: grid !important;
+    place-items: center !important;
+}
+
+/* 
+  --- THE DEFINITIVE FULLSCREEN FIX ---
+  Phaser's scaling manager injects INLINE styles (e.g., `position`, `top`)
+  onto the canvas that conflict with our layout, causing the canvas to stick to
+  the top-left corner. This rule is more specific and uses `!important` to
+  forcefully override Phaser's inline styles, ensuring the canvas respects the 
+  parent's Grid layout.
+*/
+#root:fullscreen > canvas,
+#root:-webkit-full-screen > canvas,
+#root:-moz-full-screen > canvas,
+#root:-ms-fullscreen > canvas {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+}
+
+
+#root canvas {
+    display: block;
+    margin: auto;
+    border: 3px solid #f97316;
+    border-radius: 5px;
+    box-shadow: 0 0 20px rgba(249, 115, 22, 0.5);
+}
+
+/* 
+  FIX: Phaser's DOM container sits on top of the canvas. By default, it blocks all input.
+  This makes the container itself transparent to pointer events, allowing clicks and
+  keyboard input to pass through to the game canvas underneath. Specific UI elements
+  inside this container will have pointer-events re-enabled in the JS.
+*/
+#root > div {
+  pointer-events: none;
+}
+
+.hero-title {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 4rem;
+    font-weight: normal;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+    color: #e0e0e0;
+    text-shadow: 0 0 15px rgba(59, 117, 255, 0.7);
+}
+.hero-subtitle {
+    font-size: 1.25rem;
+    max-width: 42rem;
+    margin-left: auto;
+    margin-right: auto;
+    color: #a0a0a0;
+    margin-bottom: 2rem;
+}
+
+/* --- IN-GAME UI --- */
+.player-list-container {
+    width: 250px;
+    height: 350px;
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 5px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    font-family: 'Roboto Mono', monospace;
+    pointer-events: auto; /* Re-enable pointer events for this UI */
+}
+
+.player-list-header {
+    font-family: 'Bebas Neue', cursive;
+    letter-spacing: 1px;
+    color: #f97316;
+    margin: 0 0 10px 0;
+    font-size: 1.5rem;
+}
+
+#playerList { /* ID is used in JS, so we style it directly */
+    width: 100%;
+    height: 280px;
+    overflow-y: auto;
+    background-color: #1a1a1a;
+    padding: 10px;
+    border-radius: 3px;
+}
+
+.player-entry {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    border-bottom: 1px solid #333;
+}
+
+.player-name {
+    color: #ddd;
+}
+
+.player-invite-btn {
+    padding: 5px 10px;
+    background-color: #f97316;
+    color: #121212;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-family: 'Roboto Mono', monospace;
+    transition: background-color 0.2s;
+}
+
+.player-invite-btn:hover {
+    background-color: #fb923c;
+}
+
+.player-invite-btn:disabled {
+    background-color: #555;
+    color: #999;
+    cursor: not-allowed;
+}
+
+.player-status {
+    font-style: italic;
+    color: #888;
+}
+.player-status--tower {
+    color: #a29bfe;
+}
+
+.invite-popup-overlay {
+    position: absolute; /* Changed from fixed to absolute */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9998;
+    pointer-events: auto;
+    background-color: rgba(0, 0, 0, 0.5); /* Added a backdrop */
+}
+
+.invite-popup-content {
+    width: 350px;
+    background-color: #222;
+    padding: 25px;
+    border-radius: 10px;
+    border: 2px solid #f97316;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+}
+
+.invite-popup-text {
+    font-size: 20px;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.invite-popup-actions {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.invite-popup-btn {
+    padding: 10px 30px;
+    font-size: 16px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Bebas Neue', cursive;
+    letter-spacing: 1px;
+    transition: opacity 0.2s;
+}
+.invite-popup-btn:hover {
+    opacity: 0.9;
+}
+
+.invite-popup-btn.btn-accept {
+    background-color: #22c55e;
+}
+
+.invite-popup-btn.btn-decline {
+    background-color: #ef4444;
+}
+
+/* --- FOOTER --- */
+.footer {
+  background-color: #121212cc;
+  border-top: 1px solid rgb(118 118 118 / 38%);
+  padding: 2rem 0;
+  margin-top: auto;
+}
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+.footer-copyright {
+  color: #a0a0a0;
+  font-size: .9rem;
+}
+.social-links {
+  display: flex;
+  gap: 1.5rem;
+}
+.social-link {
+  color: #a0a0a0;
+  transition: color .3s ease;
+}
+.social-link:hover {
+    color: #f97316;
+}
+.social-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* --- RESPONSIVE STYLES --- */
+@media (min-width: 768px) {
+    .desktop-nav { display: flex; }
+    .desktop-auth { display: flex; }
+    .mobile-menu-toggle { display: none; }
+    .mobile-menu { display: none !important; }
+
+    .hero-title { font-size: 6rem; }
+}
+
+@media (min-width: 1024px) {
+    .footer-content {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}

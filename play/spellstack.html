@@ -1,0 +1,471 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Breaking Point Games - Spell Stack</title>
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Game-specific fonts -->
+<link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=IM+Fell+English+SC&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<!-- Theme fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Orbitron:wght@700&family=Roboto+Mono&display=swap" rel="stylesheet">
+<!-- Stylesheet -->
+    <script src="https://cdn.tailwindcss.com"></script>
+	<style>
+	/* --- GLOBAL STYLES --- */
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Roboto Mono', monospace;
+  background-color: #121212;
+  color: #e0e0e0;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.background-gradient {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse at top, #3a2c41, #121212 70%), radial-gradient(ellipse at bottom, #2c3e50, #121212 70%);
+  z-index: -1;
+  opacity: 0.8;
+}
+
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.btn {
+  display: inline-block;
+  padding: .75rem 1.5rem;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 700;
+  transition: all .3s ease;
+  font-family: 'Bebas Neue', cursive;
+  letter-spacing: 1px;
+  font-size: 1.1rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-align: center;
+}
+
+.btn-primary {
+    background-color: #f97316;
+    color: #121212;
+    border-color: #f97316;
+}
+
+    .btn-primary:hover {
+        background-color: transparent;
+        color: #f97316;
+    }
+
+.section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+.section-title {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 3rem;
+    font-weight: normal;
+    letter-spacing: 2px;
+    color: #e0e0e0;
+}
+.section-subtitle {
+    margin-top: 1rem;
+    font-size: 1.125rem;
+    color: #a0a0a0;
+}
+.section-divider {
+    margin-top: 1rem;
+    width: 6rem;
+    height: 3px;
+    background-color: #f97316;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 2px;
+}
+
+/* --- HEADER --- */
+.header {
+    background-color: #121212cc;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);    
+      border-bottom: 1px solid rgb(118 118 118 / 38%);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 1rem 0;
+}
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.logo-accent {
+    color: #f97316;
+}
+
+.desktop-nav { display: none; }
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+.nav-link {
+  text-decoration: none;
+  color: #e0e0e0;
+  font-size: 1.1rem;
+  font-weight: 500;
+  position: relative;
+  transition: color .3s ease;
+  padding: 0.5rem 0;
+}
+    .nav-link:after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        bottom: 0;
+        left: 0;
+        background-color: #f97316;
+        transform: scaleX(0);
+        transform-origin: bottom right;
+        transition: transform .3s ease-out;
+    }
+    .nav-link:hover {
+        color: #f97316;
+    }
+.nav-link:hover:after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+.desktop-auth { 
+    display: none;
+    align-items: center;
+    gap: 1.5rem;
+}
+.desktop-auth .nav-link:after {
+    display: none; /* Don't want the underline effect on the login button */
+}
+    .desktop-auth .nav-link:hover {
+        color: #f97316;
+    }
+
+
+.mobile-menu-toggle { display: flex; }
+.mobile-menu-btn {
+  background: none;
+  border: none;
+  color: #e0e0e0;
+  cursor: pointer;
+}
+.menu-icon {
+  width: 2rem;
+  height: 2rem;
+}
+.mobile-menu {
+  background-color: #121212f2;
+  padding: 2rem;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  border-bottom: 1px solid rgba(255, 59, 141, .2);
+}
+.mobile-nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+}
+.mobile-nav-link {
+  text-decoration: none;
+  color: #e0e0e0;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+.mobile-auth {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, .1);
+}
+.mobile-auth-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+.mobile-auth-link {
+  text-decoration: none;
+  color: #e0e0e0;
+  font-size: 1.2rem;
+}
+.mobile-signup {
+  width: 100%;
+  text-align: center;
+}
+
+
+/* --- HERO SECTION --- */
+.hero-section {
+    position: relative;
+    min-height: calc(100vh - 75px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #e0e0e0;
+    overflow: hidden;
+    padding: 2rem 1rem;
+    flex-grow: 1;
+}
+.hero-bg-image {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: transparent;
+}
+.hero-overlay {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: #12121280;
+}
+.hero-content {
+    position: relative;
+    z-index: 10;
+}
+.hero-title {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 4rem;
+    font-weight: normal;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+    color: #e0e0e0;
+    text-shadow: 0 0 15px rgba(59, 117, 255, 0.7);
+}
+.hero-subtitle {
+    font-size: 1.25rem;
+    max-width: 42rem;
+    margin-left: auto;
+    margin-right: auto;
+    color: #a0a0a0;
+    margin-bottom: 2rem;
+}
+.btn-hero {
+    font-size: 1.5rem;
+    padding: 1rem 2.5rem;
+}
+
+/* --- FOOTER --- */
+.footer {
+  background-color: #121212cc;
+  border-top: 1px solid rgb(118 118 118 / 38%);
+  padding: 2rem 0;
+  margin-top: auto;
+}
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+.footer-copyright {
+  color: #a0a0a0;
+  font-size: .9rem;
+}
+.social-links {
+  display: flex;
+  gap: 1.5rem;
+}
+.social-link {
+  color: #a0a0a0;
+  transition: color .3s ease;
+}
+    .social-link:hover {
+        color: #f97316;
+    }
+.social-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* --- RESPONSIVE STYLES --- */
+@media (min-width: 768px) {
+    .desktop-nav { display: flex; }
+    .desktop-auth { display: flex; }
+    .mobile-menu-toggle { display: none; }
+    .mobile-menu { display: none !important; }
+
+    .hero-title { font-size: 6rem; }
+
+    .section-title { font-size: 3.5rem; }
+
+    .footer-content {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    .page-title { font-size: 4rem; }
+}
+
+#game-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background-color: rgba(0,0,0,0.3);
+  border-radius: 1rem;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border: 1px solid rgba(255,255,255,0.1);
+  min-height: 600px;
+}
+
+	</style>
+
+<link rel="stylesheet" href="/index.css">
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/"
+  }
+}
+</script>
+  <script type="module" crossorigin src="/assets/index-X-HcKIIR.js"></script>
+</head>
+<body>
+<div class="background-gradient"></div>
+
+<div class="main-content">
+    <header class="header">
+        <div class="container">
+            <div class="navbar">
+                <a href="/" class="logo">
+                    <span class="logo-accent">BP</span>GAMES
+                </a>
+                <nav class="desktop-nav">
+                    <div class="nav-links">
+                       <!-- <a href="#" class="nav-link">Home</a>
+                        <a href="../games.html" class="nav-link">Games</a>-->
+                    </div>
+                </nav>
+                <div class="desktop-auth">
+                    <a href="../login.html" class="nav-link">Login</a>
+                    <a href="../signup.html" class="btn btn-primary">Sign Up</a>
+                </div>
+                <div class="mobile-menu-toggle">
+                    <button id="mobile-menu-button" type="button" class="mobile-menu-btn" aria-controls="mobile-menu" aria-expanded="false">
+                        <span class="sr-only">Open main menu</span>
+                        <svg id="menu-icon-open" class="menu-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        <svg id="menu-icon-close" class="menu-icon hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="mobile-menu hidden" id="mobile-menu">
+            <div class="mobile-nav-links">
+             <!--   <a href="#" class="mobile-nav-link">Home</a>
+                <a href="../games.html" class="mobile-nav-link">Games</a>-->
+            </div>
+            <div class="mobile-auth">
+                <div class="mobile-auth-links">
+                    <a href="../login.html" class="mobile-auth-link">Login</a>
+                    <a href="../signup.html" class="btn btn-primary mobile-signup">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero-section">
+            <div class="hero-bg-image">
+                <div class="hero-overlay"></div>
+            </div>
+            <div class="hero-content">
+			    <div id="game-wrapper">
+                    <div id="root"></div>
+                </div>
+            </div>
+        </section>    
+    </main>
+</div>
+<script>
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const openIcon = document.getElementById('menu-icon-open');
+    const closeIcon = document.getElementById('menu-icon-close');
+
+    if (mobileMenuButton && mobileMenu && openIcon && closeIcon) {
+        mobileMenuButton.addEventListener('click', () => {
+            const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
+            mobileMenuButton.setAttribute('aria-expanded', !isExpanded);
+            mobileMenu.classList.toggle('hidden');
+            openIcon.classList.toggle('hidden');
+            closeIcon.classList.toggle('hidden');
+        });
+    }
+</script>
+</body>
+</html>

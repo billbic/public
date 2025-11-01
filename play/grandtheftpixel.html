@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Breaking Point Games</title>
+    
+    <!-- Game Dependencies -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/7.4.2/pixi.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.164.1/three.min.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
+<!-- Embedded Stylesheet -->
+<style>
+/* --- GLOBAL STYLES --- */
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Roboto Mono', monospace;
+  background-color: #121212;
+  color: #e0e0e0;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.background-gradient {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse at top, #3a2c41, #121212 70%), radial-gradient(ellipse at bottom, #2c3e50, #121212 70%);
+  z-index: -1;
+  opacity: 0.8;
+}
+
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.btn {
+  display: inline-block;
+  padding: .75rem 1.5rem;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 700;
+  transition: all .3s ease;
+  font-family: 'Bebas Neue', cursive;
+  letter-spacing: 1px;
+  font-size: 1.1rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-align: center;
+}
+
+.btn-primary {
+    background-color: #f97316;
+    color: #121212;
+    border-color: #f97316;
+}
+
+    .btn-primary:hover {
+        background-color: transparent;
+        color: #f97316;
+    }
+
+.section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+.section-title {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 3rem;
+    font-weight: normal;
+    letter-spacing: 2px;
+    color: #e0e0e0;
+}
+.section-subtitle {
+    margin-top: 1rem;
+    font-size: 1.125rem;
+    color: #a0a0a0;
+}
+.section-divider {
+    margin-top: 1rem;
+    width: 6rem;
+    height: 3px;
+    background-color: #f97316;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 2px;
+}
+
+/* --- HEADER --- */
+.header {
+    background-color: #121212cc;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);    
+      border-bottom: 1px solid rgb(118 118 118 / 38%);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 1rem 0;
+}
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.logo-accent {
+    color: #f97316;
+}
+
+.desktop-nav { display: none; }
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+.nav-link {
+  text-decoration: none;
+  color: #e0e0e0;
+  font-size: 1.1rem;
+  font-weight: 500;
+  position: relative;
+  transition: color .3s ease;
+  padding: 0.5rem 0;
+}
+    .nav-link:after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        bottom: 0;
+        left: 0;
+        background-color: #f97316;
+        transform: scaleX(0);
+        transform-origin: bottom right;
+        transition: transform .3s ease-out;
+    }
+    .nav-link:hover {
+        color: #f97316;
+    }
+.nav-link:hover:after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+.desktop-auth { 
+    display: none;
+    align-items: center;
+    gap: 1.5rem;
+}
+.desktop-auth .nav-link:after {
+    display: none; /* Don't want the underline effect on the login button */
+}
+    .desktop-auth .nav-link:hover {
+        color: #f97316;
+    }
+
+
+.mobile-menu-toggle { display: flex; }
+.mobile-menu-btn {
+  background: none;
+  border: none;
+  color: #e0e0e0;
+  cursor: pointer;
+}
+.menu-icon {
+  width: 2rem;
+  height: 2rem;
+}
+.mobile-menu {
+  background-color: #121212f2;
+  padding: 2rem;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  border-bottom: 1px solid rgba(255, 59, 141, .2);
+}
+.mobile-nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+}
+.mobile-nav-link {
+  text-decoration: none;
+  color: #e0e0e0;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+.mobile-auth {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, .1);
+}
+.mobile-auth-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+.mobile-auth-link {
+  text-decoration: none;
+  color: #e0e0e0;
+  font-size: 1.2rem;
+}
+.mobile-signup {
+  width: 100%;
+  text-align: center;
+}
+
+
+/* --- HERO SECTION --- */
+.hero-section {
+    position: relative;
+    min-height: calc(100vh - 150px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #e0e0e0;
+    overflow: hidden;
+    padding: 4rem 1rem;
+    flex-grow: 1;
+}
+.hero-bg-image {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: transparent;
+}
+.hero-overlay {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: #12121280;
+}
+.hero-content {
+    position: relative;
+    z-index: 10;
+}
+.hero-title {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 4rem;
+    font-weight: normal;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+    color: #e0e0e0;
+    text-shadow: 0 0 15px rgba(59, 117, 255, 0.7);
+}
+.hero-subtitle {
+    font-size: 1.25rem;
+    max-width: 42rem;
+    margin-left: auto;
+    margin-right: auto;
+    color: #a0a0a0;
+    margin-bottom: 2rem;
+}
+.btn-hero {
+    font-size: 1.5rem;
+    padding: 1rem 2.5rem;
+}
+
+/* --- FOOTER --- */
+.footer {
+  background-color: #121212cc;
+  /*-border-top: 1px solid rgba(255, 59, 141, .2);-*/
+  border-top: 1px solid rgb(118 118 118 / 38%);
+  padding: 2rem 0;
+  margin-top: auto;
+}
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+.footer-copyright {
+  color: #a0a0a0;
+  font-size: .9rem;
+}
+.social-links {
+  display: flex;
+  gap: 1.5rem;
+}
+.social-link {
+  color: #a0a0a0;
+  transition: color .3s ease;
+}
+    .social-link:hover {
+        color: #f97316;
+    }
+.social-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* --- RESPONSIVE STYLES --- */
+@media (min-width: 768px) {
+    .desktop-nav { display: flex; }
+    .desktop-auth { display: flex; }
+    .mobile-menu-toggle { display: none; }
+    .mobile-menu { display: none !important; }
+
+    .hero-title { font-size: 6rem; }
+
+    .section-title { font-size: 3.5rem; }
+
+    .footer-content {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    .page-title { font-size: 4rem; }
+}
+
+/* --- GAME SPECIFIC STYLES --- */
+#game-wrapper {
+  position: relative;
+  width: 800px;
+  height: 600px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: transparent;
+}
+#game-wrapper:fullscreen {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+#game-container {
+  width: 100%;
+  height: 100%;
+  position: relative; /* Needed for absolute positioning of canvases */
+}
+#game-container canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+#fullscreen-toggle {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  padding: 8px 12px;
+  background-color: rgba(0,0,0,0.6);
+  border: 1px solid #aaa;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  z-index: 100;
+  font-family: 'Roboto Mono', monospace;
+}
+#fullscreen-toggle:hover {
+  background-color: rgba(0,0,0,0.8);
+}
+
+
+/* --- GAME OVERLAYS --- */
+#main-menu-overlay,
+#character-creation-overlay,
+#pause-menu-overlay,
+#options-menu-overlay,
+#skills-menu-overlay,
+#inventory-overlay,
+#terminal-overlay,
+#map-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(10, 10, 10, 0.85);
+    backdrop-filter: blur(8px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    color: white;
+    font-family: 'Roboto Mono', monospace;
+}
+
+/* Generic Menu Styles */
+.menu-container {
+    background-color: rgba(30, 30, 30, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    min-width: 300px;
+    text-align: center;
+}
+.menu-container h1, .menu-container h2 {
+    font-family: 'Bebas Neue', cursive;
+    letter-spacing: 3px;
+    color: #f97316;
+    margin-bottom: 1.5rem;
+    font-size: 2.5rem;
+    font-weight: normal;
+}
+.menu-container ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.menu-container li {
+    padding: 0.8rem 1rem;
+    margin: 0.5rem 0;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    font-size: 1.1rem;
+}
+.menu-container li:hover, .menu-container li.selected {
+    background-color: rgba(249, 115, 22, 0.2);
+    border-color: rgba(249, 115, 22, 0.8);
+    color: #f97316;
+    transform: scale(1.05);
+}
+.menu-button {
+    background-color: #f97316;
+    color: #121212;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+    margin-top: 1rem;
+    transition: background-color 0.2s, color 0.2s;
+}
+.menu-button:hover {
+    background-color: #fb923c;
+}
+.saves-list li {
+    text-align: left;
+}
+/* Character Creation */
+#character-creation-menu {
+    display: flex;
+    gap: 2rem;
+    background-color: rgba(30, 30, 30, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 2rem;
+    width: 90%;
+    max-width: 700px;
+}
+#cc-left-panel, #cc-right-panel {
+    flex: 1;
+}
+#cc-left-panel h2 {
+    text-align: center;
+}
+.cc-options-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+.cc-option-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(0,0,0,0.2);
+    padding: 8px 12px;
+    border-radius: 4px;
+}
+.cc-option-item label {
+    font-size: 0.9rem;
+}
+.cc-option-item button {
+    padding: 4px 12px;
+    background-color: #444;
+    border: 1px solid #666;
+    color: #eee;
+    cursor: pointer;
+    border-radius: 4px;
+}
+#cc-right-panel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0,0,0,0.2);
+    border-radius: 4px;
+}
+#character-preview-canvas {
+    background-color: #333;
+}
+#cc-buttons {
+    display: flex;
+    justify-content: space-around;
+}
+/* Pause Menu */
+#pause-menu, #save-menu, #load-menu, #main-load-menu {
+    display: flex;
+    flex-direction: column;
+}
+/* Options Menu */
+#options-menu {
+    width: 90%;
+    max-width: 600px;
+}
+.options-tabs {
+    display: flex;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    margin-bottom: 1.5rem;
+}
+.options-tab-btn {
+    background: none;
+    border: none;
+    color: #aaa;
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    font-size: 1rem;
+    font-family: 'Roboto Mono', monospace;
+    transition: all 0.2s ease-in-out;
+    border-bottom: 2px solid transparent;
+}
+.options-tab-btn.active {
+    color: #f97316;
+    border-bottom-color: #f97316;
+}
+.options-tab-content {
+    display: none;
+}
+.options-tab-content.active {
+    display: block;
+}
+.options-section {
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+.options-section h3 {
+    font-family: 'Bebas Neue', cursive;
+    color: #f97316;
+    letter-spacing: 2px;
+    border-bottom: 1px solid #555;
+    padding-bottom: 5px;
+    margin-bottom: 1rem;
+}
+.option-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    padding: 8px;
+}
+.option-item select {
+    background-color: #333;
+    color: white;
+    border: 1px solid #666;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+.toggle-button {
+    padding: 5px 15px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.8rem;
+    min-width: 50px;
+    text-align: center;
+}
+.toggle-button.on {
+    background-color: #2ecc71;
+    color: white;
+}
+.toggle-button.off {
+    background-color: #e74c3c;
+    color: white;
+}
+.keybind-key {
+    background-color: #555;
+    border: 1px solid #777;
+    padding: 5px 15px;
+    color: white;
+    cursor: pointer;
+    min-width: 80px;
+    text-align: center;
+}
+.keybind-key.rebinding {
+    background-color: #f97316;
+}
+
+/* In-Game HUD */
+#player-stats {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 200px;
+    z-index: 5;
+}
+.stat-bar {
+    background-color: rgba(0,0,0,0.5);
+    border: 1px solid #555;
+    border-radius: 5px;
+    padding: 2px;
+    margin-bottom: 5px;
+    height: 18px;
+}
+.stat-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.2s ease-in-out;
+}
+#health-bar-fill {
+    background: linear-gradient(to right, #e74c3c, #c0392b);
+}
+#armor-bar-fill {
+    background: linear-gradient(to right, #3498db, #2980b9);
+}
+
+#weapon-ui-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    color: white;
+    font-size: 1.1rem;
+    text-shadow: 1px 1px 3px black;
+    z-index: 5;
+}
+#clock-info, #cash-info, #weapon-info {
+    background-color: rgba(0,0,0,0.5);
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+}
+
+#minimap-container {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    width: 200px;
+    height: 200px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 0 15px black;
+    z-index: 5;
+}
+#minimapCanvas {
+    width: 100%;
+    height: 100%;
+}
+#hotbar {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 5;
+}
+.hotbar-slot {
+    width: 50px;
+    height: 50px;
+    background-color: rgba(0,0,0,0.5);
+    border: 1px solid #555;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.hotbar-slot.selected {
+    border-color: #f97316;
+    box-shadow: 0 0 10px #f97316;
+}
+.slot-key {
+    position: absolute;
+    top: 2px;
+    left: 4px;
+    font-size: 0.8rem;
+    color: #ccc;
+    text-shadow: 1px 1px 2px black;
+}
+.hotbar-slot .inventory-item {
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+    line-height: 40px;
+    text-align: center;
+}
+.inventory-item .item-quantity {
+    position: absolute;
+    bottom: 2px;
+    right: 4px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+</style>
+<link rel="stylesheet" href="../index.css">
+    <script type="importmap">
+    {
+      "imports": {
+        "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+        "react/": "https://aistudiocdn.com/react@^19.2.0/",
+        "react": "https://aistudiocdn.com/react@^19.2.0",
+        "vite": "https://aistudiocdn.com/vite@^7.1.9",
+        "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.0.4"
+      }
+    }
+    </script>
+  <script type="module" crossorigin src="../assets/index-B5Qt9EMX.js"></script>  
+</head>
+<body>
+    <div class="background-gradient"></div>
+    <div class="main-content">
+        <header class="header">
+            <div class="container">
+                <div class="navbar">
+                    <div class="logo-container">
+                        <a href="/" class="logo">
+                            <span class="logo-accent">BP</span>GAMES
+                        </a>
+                    </div>
+                    <nav class="desktop-nav">
+                        <div class="nav-links">
+                       <!--     <a href="/" class="nav-link">Home</a>
+                            <a href="../games.html" class="nav-link">Games</a>
+                            <a href="../community.html" class="nav-link">Community</a>
+                            <a href="../support.html" class="nav-link">Support</a>-->
+                        </div>
+                    </nav>
+                    <div class="desktop-auth">
+                        <a href="../login.html" class="nav-link">Login</a>
+                        <a href="../signup.html" class="btn btn-primary">Sign Up</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <section class="hero-section">
+                <div class="hero-content">
+					<img src="../play/images/bpg-uc.jpg" style="width: 50%; margin: auto;" />
+                  <!--<div id="root"></div>-->
+                </div>
+            </section>    
+        </main>
+
+        <footer class="footer">
+            <div class="container">
+                <p>&copy; 2024 Breaking Point Games. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,96 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>BPGAMES - IsoTower Multiplayer</title>
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Theme fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Orbitron:wght@700&family=Roboto+Mono&display=swap" rel="stylesheet">
+<!-- Local CSS -->
+<link rel="stylesheet" href="index.css">
+<link rel="stylesheet" href="/play/isotower/styles/game.css">
+<!-- Phaser.js library -->
+<script src="https://cdn.jsdelivr.net/npm/phaser@3.80.1/dist/phaser.min.js"></script>
+<!-- Game Logic -->
+<script type="module" src="index.js"></script>
+</head>
+<body>
+<div class="background-gradient"></div>
+
+<div class="main-content">
+    <header class="header">
+        <div class="container">
+            <div class="navbar">
+                <a href="/" class="logo">
+                    <span class="logo-accent">BP</span>GAMES
+                </a>
+                <nav class="desktop-nav">
+                    <!-- Desktop nav links can be added here -->
+                </nav>
+                <div class="desktop-auth">
+                    <a href="/login.html" class="nav-link">Login</a>
+                    <a href="/signup.html" class="btn btn-primary">Sign Up</a>
+                </div>
+                <div class="mobile-menu-toggle">
+                    <button id="mobile-menu-button" type="button" class="mobile-menu-btn" aria-controls="mobile-menu" aria-expanded="false">
+                        <span class="sr-only">Open main menu</span>
+                        <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="mobile-menu hidden">
+            <div class="mobile-nav-links">
+                 <!-- Mobile nav links can be added here -->
+            </div>
+            <div class="mobile-auth">
+                <div class="mobile-auth-links">
+                    <a href="/login.html" class="mobile-auth-link">Login</a>
+                    <a href="/signup.html" class="btn btn-primary mobile-signup">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero-section">
+            <div class="hero-content">
+                <div id="root">
+                    <video autoplay loop muted playsinline id="bg-video">
+                        <source src="/play/isotower/images/isotower_video.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="hero-overlay"></div>
+                    <!-- Phaser canvas will be injected here -->
+                </div>
+            </div>
+        </section>    
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p class="footer-copyright">&copy; 2024 Breaking Point Games. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</div>
+<script>
+    // Simple mobile menu toggle script
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    mobileMenuButton.addEventListener('click', () => {
+        const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
+        mobileMenuButton.setAttribute('aria-expanded', !isExpanded);
+        mobileMenu.classList.toggle('hidden');
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Wheel of Christmas</title>
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Theme fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Orbitron:wght@700&family=Roboto+Mono&display=swap" rel="stylesheet">
+<!-- Game fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@700&family=Playfair+Display:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <script type="module" crossorigin src="assets/index-DC4lJnwV.js"></script>
+  <link rel="stylesheet" crossorigin href="assets/index-COMKoK-z.css">
+</head>
+<body>
+<div class="background-gradient"></div>
+
+<div class="main-content">
+    <header class="header">
+        <div class="container">
+            <div class="navbar">
+                <a href="/" class="logo">
+                    <span class="logo-accent">BP</span>GAMES
+                </a>
+                <nav class="desktop-nav">
+                    <div class="nav-links">
+                      <!--  <a href="#" class="nav-link">Home</a>
+                        <a href="#" class="nav-link">Games</a>
+                        <a href="#" class="nav-link">Community</a>
+                        <a href="#" class="nav-link">Support</a>-->
+                    </div>
+                </nav>
+                <div class="desktop-auth">
+                    <a href="#" class="nav-link">Login</a>
+                    <a href="#" class="btn btn-primary">Sign Up</a>
+                </div>
+                <div class="mobile-menu-toggle">
+                    <button id="mobile-menu-button" type="button" class="mobile-menu-btn" aria-controls="mobile-menu" aria-expanded="false">
+                        <span class="sr-only">Open main menu</span>
+                        <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="mobile-menu hidden">
+          <div class="mobile-nav-links">
+            <!-- <a href="#" class="mobile-nav-link">Home</a> -->
+          </div>
+          <div class="mobile-auth">
+              <div class="mobile-auth-links">
+                  <a href="#" class="mobile-auth-link">Login</a>
+                  <a href="#" class="btn btn-primary mobile-signup">Sign Up</a>
+              </div>
+          </div>
+      </div>
+    </header>
+
+    <main>
+        <section class="hero-section">
+            <div class="hero-bg-image">
+                <div class="hero-overlay"></div>
+            </div>
+            <div class="hero-content">
+                <div id="root">
+                  <div id="app-wrapper">
+                    <div id="game-container">
+                      <header>
+                        <h1>Wheel of Christmas</h1>
+                        <div class="category-header">
+                            <span class="header-brand">Wheel of Christmas</span>
+                            <p id="category">&nbsp;</p>
+                            <button id="restart-btn" title="Restart Game" aria-label="Restart Game">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0011.664 0M2.985 19.644L6.166 16.46m12.022-12.022L11.834 1.27m-1.42 1.42L11.834 1.27M18.188 4.354A8.25 8.25 0 006.522 4.354" />
+                                </svg>
+                            </button>
+                        </div>
+                        <p id="source" class="hidden">&nbsp;</p>
+                      </header>
+                      
+                      <main>
+                        <div id="loading" class="loading-text">Loading Game...</div>
+                        
+                        <div id="game-content" class="hidden">
+                          <div id="puzzle-board"></div>
+                          
+                          <div id="main-game-area">
+                            <div id="top-row">
+                              <div id="status-panel">
+                                <div id="player-info">
+                                  <div class="score-box">
+                                    <span>Your Score</span> 
+                                    <span id="round-score">$0</span>
+                                  </div>
+                                  <div class="score-box">
+                                    <span>Total Score</span> 
+                                    <span id="total-score">$0</span>
+                                  </div>
+                                  <div class="score-box opponent-score">
+                                    <span>Santa's Score</span> 
+                                    <span id="ai-round-score">$0</span>
+                                  </div>
+                                  <div class="score-box opponent-score">
+                                    <span>Santa's Total</span> 
+                                    <span id="ai-total-score">$0</span>
+                                  </div>
+                                </div>
+                                <div id="action-buttons">
+                                  <div id="message-box">
+                                    <p id="message"></p>
+                                  </div>
+                                  <div id="avatar-container">
+                                    <div class="avatar-content">
+                                      <div id="speech-bubble" class="hidden"></div>
+                                      <!-- Opponent Avatar -->
+                                      <img id="avatar-svg" src="https://breakingpointgames.com/play/wos/avatar.png" alt="Santa Claus Avatar">
+                                    </div>
+                                  </div>
+                                  <div id="player-actions-container">
+                                    <button id="vowel-btn">Buy Vowel</button>
+                                    <button id="solve-btn">Solve</button>
+                                  </div>
+                                </div>
+                              </div>
+                              <div id="wheel-panel">
+                                  <div id="wheel-and-stand">
+                                      <div id="wheel-display-area">
+                                          <div id="wheel-container">
+                                              <div id="wheel-rotator">
+                                                <div id="wheel"></div>
+                                                <div id="wheel-labels"></div>
+                                              </div>
+                                              <div id="wheel-center"></div>
+                                          </div>
+                                          <div id="wheel-ticker"></div>
+                                      </div>
+                                  </div>
+                                  <div id="wheel-result-display"></div>
+                              </div>
+                            </div>
+                            <div id="keyboard-and-message">
+                                <div id="keyboard"></div>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div id="game-over-screen" class="hidden modal-overlay">
+                          <div class="modal-content">
+                            <h2 id="game-over-title">Game Over!</h2>
+                            <div class="modal-body">
+                              <p id="game-over-subtitle">Here are the final scores:</p>
+                              <div id="final-scores-display">
+                                <div class="final-score-box">
+                                    <h3>You</h3>
+                                    <p id="final-score-human">$0</p>
+                                </div>
+                                <div class="final-score-box">
+                                    <h3>Santa</h3>
+                                    <p id="final-score-ai">$0</p>
+                                </div>
+                              </div>
+                              <p style="font-size: 1.1rem; margin-top: 1rem;">Thanks for playing!</p>
+                              <button id="play-again-btn" class="btn btn-primary" style="margin-top: 1.5rem; background-color: var(--color-christmas-green); color: white; border-color: var(--color-wood-dark);">Play Again</button>
+                            </div>
+                          </div>
+                        </div>
+                      </main>
+                    </div>
+                  </div>
+              
+                  <div id="solve-modal" class="hidden modal-overlay">
+                    <div class="modal-content">
+                      <h2>Solve the Puzzle</h2>
+                      <div class="modal-body">
+                          <form id="solve-form">
+                          <input type="text" id="solve-input" placeholder="TYPE YOUR GUESS HERE" autofocus />
+                          <div class="modal-buttons">
+                              <button type="button" id="solve-cancel-btn">Cancel</button>
+                              <button type="submit" id="solve-submit-btn">Solve</button>
+                          </div>
+                          </form>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div id="restart-modal" class="hidden modal-overlay">
+                    <div class="modal-content">
+                      <h2>Restart Game?</h2>
+                      <div class="modal-body">
+                        <p>Are you sure you want to restart? Your current progress will be lost.</p>
+                        <div class="modal-buttons">
+                          <button type="button" id="restart-cancel-btn">Cancel</button>
+                          <button type="button" id="restart-confirm-btn" class="btn-danger">Yes, Restart</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </section>    
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p class="footer-copyright">&copy; 2024 Breaking Point Games. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</div>
+<div id="confetti-container"></div>
+<script>
+    // Simple mobile menu toggle script
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (mobileMenuButton && mobileMenu) {
+      mobileMenuButton.addEventListener('click', () => {
+          const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
+          mobileMenuButton.setAttribute('aria-expanded', !isExpanded);
+          mobileMenu.classList.toggle('hidden');
+      });
+    }
+</script>
+</body>
+</html>

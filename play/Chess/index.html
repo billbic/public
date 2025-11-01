@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vera's Chess</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Theme fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Orbitron:wght@700&family=Roboto+Mono&display=swap" rel="stylesheet">
+    <style>
+        /* --- From New Template --- */
+        /* --- GLOBAL STYLES --- */
+        *,
+        *:before,
+        *:after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        }
+
+        html {
+        scroll-behavior: smooth;
+        }
+
+        body {
+        font-family: 'Roboto Mono', monospace;
+        background-color: #121212;
+        color: #e0e0e0;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        }
+
+        .background-gradient {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(ellipse at top, #3a2c41, #121212 70%), radial-gradient(ellipse at bottom, #2c3e50, #121212 70%);
+        z-index: -1;
+        opacity: 0.8;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 0 20px;
+        }
+
+        .hidden {
+        display: none !important;
+        }
+
+        .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border-width: 0;
+        }
+
+        .btn {
+        display: inline-block;
+        padding: .75rem 1.5rem;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: 700;
+        transition: all .3s ease;
+        font-family: 'Bebas Neue', cursive;
+        letter-spacing: 1px;
+        font-size: 1.1rem;
+        border: 1px solid transparent;
+        cursor: pointer;
+        text-align: center;
+        }
+
+        .btn-primary {
+            background-color: #f97316;
+            color: #121212;
+            border-color: #f97316;
+        }
+
+        .btn-primary:hover {
+            background-color: transparent;
+            color: #f97316;
+        }
+
+        /* --- HEADER --- */
+        .header {
+            background-color: #121212cc;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);    
+            border-bottom: 1px solid rgb(118 118 118 / 38%);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+        .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .logo-accent {
+            color: #f97316;
+        }
+
+        .desktop-nav { display: none; }
+        .nav-links {
+        display: flex;
+        gap: 2rem;
+        align-items: center;
+        }
+        .nav-link {
+        text-decoration: none;
+        color: #e0e0e0;
+        font-size: 1.1rem;
+        font-weight: 500;
+        position: relative;
+        transition: color .3s ease;
+        padding: 0.5rem 0;
+        cursor: pointer;
+        }
+        .nav-link:after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #f97316;
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform .3s ease-out;
+        }
+        .nav-link:hover {
+            color: #f97316;
+        }
+        .nav-link:hover:after {
+        transform: scaleX(1);
+        transform-origin: bottom left;
+        }
+
+        .desktop-auth { 
+            display: none;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        .desktop-auth .nav-link:after {
+            display: none; /* Don't want the underline effect on the login button */
+        }
+        .desktop-auth .nav-link:hover {
+            color: #f97316;
+        }
+
+
+        .mobile-menu-toggle { display: flex; }
+        .mobile-menu-btn {
+        background: none;
+        border: none;
+        color: #e0e0e0;
+        cursor: pointer;
+        }
+        .menu-icon {
+        width: 2rem;
+        height: 2rem;
+        }
+        .mobile-menu {
+        background-color: #121212f2;
+        padding: 2rem;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        border-bottom: 1px solid rgba(255, 59, 141, .2);
+        }
+        .mobile-nav-links {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        align-items: center;
+        }
+        .mobile-nav-link {
+        text-decoration: none;
+        color: #e0e0e0;
+        font-size: 1.2rem;
+        font-weight: 500;
+        }
+        .mobile-auth {
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid rgba(255, 255, 255, .1);
+        }
+        .mobile-auth-links {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        }
+        .mobile-auth-link {
+        text-decoration: none;
+        color: #e0e0e0;
+        font-size: 1.2rem;
+        }
+        .mobile-signup {
+        width: 100%;
+        text-align: center;
+        }
+
+
+        /* --- HERO SECTION --- */
+        .hero-section {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #e0e0e0;
+            padding: 2rem 1rem;
+            flex-grow: 1;
+        }
+        .hero-bg-image {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: transparent;
+        }
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: #12121280;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .hero-title {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 4rem;
+            font-weight: normal;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            color: #e0e0e0;
+            text-shadow: 0 0 15px rgba(59, 117, 255, 0.7);
+        }
+        .hero-subtitle {
+            font-size: 1.25rem;
+            max-width: 42rem;
+            margin-left: auto;
+            margin-right: auto;
+            color: #a0a0a0;
+            margin-bottom: 2rem;
+        }
+
+        /* --- FOOTER --- */
+        .footer {
+        background-color: #121212cc;
+        border-top: 1px solid rgb(118 118 118 / 38%);
+        padding: 2rem 0;
+        margin-top: auto;
+        }
+        .footer-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        }
+        .footer-copyright {
+        color: #a0a0a0;
+        font-size: .9rem;
+        }
+        .social-links {
+        display: flex;
+        gap: 1.5rem;
+        }
+        .social-link {
+        color: #a0a0a0;
+        transition: color .3s ease;
+        }
+        .social-link:hover {
+            color: #f97316;
+        }
+        .social-icon {
+        width: 1.5rem;
+        height: 1.5rem;
+        }
+
+        /* --- RESPONSIVE STYLES --- */
+        @media (min-width: 768px) {
+            .desktop-nav { display: flex; }
+            .desktop-auth { display: flex; }
+            .mobile-menu-toggle { display: none; }
+            .mobile-menu { display: none !important; }
+
+            .hero-title { font-size: 6rem; }
+        }
+
+        @media (max-width: 860px) {
+            #game-container {
+                flex-direction: column !important;
+                align-items: center;
+            }
+             .board-and-controls-wrapper {
+                flex-direction: row; /* Keep row for wrapper */
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .footer-content {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        }
+        
+        /* --- From Original Chess Game --- */
+        #app-container {
+            width: 100%;
+            max-width: 1152px; /* max-w-6xl */
+        }
+
+        /* Main Game Layout */
+        #game-container {
+            display: flex;
+            width: 100%;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 1.5rem;
+        }
+
+        .board-and-controls-wrapper {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            gap: 0.75rem; /* 12px */
+        }
+
+        #board-side-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem; /* 8px */
+            margin-top: 39px; /* Align with top of board, below captured pieces */
+        }
+        
+        .board-side-btn {
+            padding: 0.6rem; /* Make it a bit smaller */
+            width: 44px;
+            height: 44px;
+        }
+
+        .board-side-btn span {
+            display: none; /* Hide text label for icon-only buttons */
+        }
+
+        /* Board */
+        #board-column {
+            position: relative;
+        }
+
+        #board-container canvas {
+            border-radius: 0.5rem; /* rounded-lg */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+            cursor: pointer;
+            display: block; /* Removes bottom space */
+        }
+        
+        .captured-pieces-container {
+            height: 35px;
+            width: 100%;
+            display: flex;
+            gap: 4px;
+            align-items: center;
+            padding: 0 4px;
+            box-sizing: border-box;
+        }
+        #captured-by-white {
+            margin-bottom: 4px;
+        }
+        #captured-by-black {
+            margin-top: 4px;
+        }
+        .captured-pieces-container img {
+            height: 30px;
+            width: 30px;
+        }
+
+        /* Banners */
+        #check-banner {
+            position: fixed;
+            top: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #991b1b; /* bg-red-800 */
+            color: #fecaca; /* text-red-200 */
+            padding: 0.75rem 2rem;
+            border-radius: 0.5rem;
+            border: 1px solid #dc2626; /* border-red-600 */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
+            z-index: 1001; /* Above remark banner */
+            font-size: 1.5rem; /* text-2xl */
+            font-weight: 700; /* font-bold */
+            text-align: center;
+            opacity: 1;
+            transition: opacity 0.5s ease-in-out;
+            pointer-events: none;
+        }
+        #check-banner.hidden {
+            opacity: 0;
+        }
+
+        /* Thinking Overlay */
+        #thinking-overlay {
+            position: absolute;
+            /* Adjust top/bottom to account for captured pieces containers */
+            top: 39px; 
+            bottom: 39px;
+            left: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.5rem; /* rounded-lg */
+        }
+        #thinking-overlay.hidden {
+            display: none;
+        }
+        .thinking-text {
+            color: white;
+            font-size: 1.5rem; /* text-2xl */
+            font-weight: 700; /* font-bold */
+            animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        /* Game Status */
+        #game-status {
+            text-align: center;
+            padding: 1rem; /* p-4 */
+            background-color: #374151; /* bg-gray-700 */
+            border-radius: 0.5rem; /* rounded-lg */
+            font-size: 1.25rem; /* text-xl */
+            font-weight: 700; /* font-bold */
+            color: white;
+            margin-top: 1rem;
+            overflow: hidden;
+            transition: padding 0.3s ease, margin-top 0.3s ease;
+        }
+
+        .difficulty-control {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .difficulty-control label {
+            font-weight: 600; /* font-semibold */
+            color: #d1d5db; /* text-gray-300 */
+        }
+        .difficulty-control label span {
+            font-weight: 700; /* font-bold */
+            color: white;
+        }
+        .difficulty-control input[type="range"] {
+            width: 100%;
+            height: 0.5rem; /* h-2 */
+            background-color: #374151; /* bg-gray-700 */
+            border-radius: 0.5rem; /* rounded-lg */
+            -webkit-appearance: none;
+            appearance: none;
+            cursor: pointer;
+        }
+        .difficulty-control input[type="range"]:disabled {
+            cursor: not-allowed;
+        }
+        .difficulty-control input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 1rem;
+            height: 1rem;
+            background: #e5e7eb;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .difficulty-control input[type="range"]::-moz-range-thumb {
+            width: 1rem;
+            height: 1rem;
+            background: #e5e7eb;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        #difficulty-warning {
+            font-size: 0.75rem; /* text-xs */
+            color: #facc15; /* text-yellow-400 */
+        }
+        
+        #save-input-container {
+            display: flex;
+            gap: 0.5rem;
+        }
+        #save-name-input {
+            flex-grow: 1;
+            background-color: #374151;
+            border: 1px solid #4b5563;
+            color: white;
+            padding: 0.5rem;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+        }
+        #save-name-input::placeholder {
+            color: #9ca3af;
+        }
+        #confirm-save-btn {
+            background-color: #2563eb;
+            color: white;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        #confirm-save-btn:hover {
+            background-color: #1d4ed8;
+        }
+        #confirm-save-btn:disabled {
+            background-color: #6b7280;
+            cursor: not-allowed;
+        }
+
+        #saved-games-container h4 {
+            font-size: 1rem; /* text-base */
+            font-weight: 600; /* font-semibold */
+            margin-bottom: 0.5rem; /* mb-2 */
+            color: #d1d5db; /* text-gray-300 */
+        }
+        #saved-games-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 10rem; /* h-40 */
+            overflow-y: auto;
+            background-color: #111827; /* bg-gray-900 */
+            border-radius: 0.375rem; /* rounded-md */
+            padding: 0.25rem; /* p-1 */
+            border: 1px solid #374151;
+        }
+        #saved-games-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem; /* p-2 */
+            border-radius: 0.25rem;
+        }
+        #saved-games-list li:hover {
+            background-color: #374151; /* hover:bg-gray-700 */
+        }
+        #saved-games-list .save-name {
+            font-weight: 500;
+        }
+        #saved-games-list .saved-game-buttons button {
+            background: none;
+            border: 1px solid transparent;
+            color: #9ca3af; /* text-gray-400 */
+            cursor: pointer;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            margin-left: 0.25rem; /* ml-1 */
+            transition: background-color 0.2s, color 0.2s;
+        }
+        #saved-games-list .saved-game-buttons button.load-btn:hover {
+            background-color: #2563eb; /* hover:bg-blue-600 */
+            color: white;
+        }
+        #saved-games-list .saved-game-buttons button.delete-btn:hover {
+            background-color: #dc2626; /* hover:bg-red-600 */
+            color: white;
+        }
+        .no-saves {
+             color: #6b7280; /* text-gray-500 */
+            text-align: center;
+            font-style: italic;
+            padding: 1rem 0;
+        }
+        .no-saves.hidden {
+            display: none;
+        }
+
+        /* Modal Styles */
+        #hint-modal-overlay, #game-menu-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 0.3s ease;
+            pointer-events: auto;
+        }
+        #hint-modal-overlay.hidden, #game-menu-modal-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+            pointer-events: none;
+        }
+        .modal-content {
+            background-color: #1f2937; /* bg-gray-800 */
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            width: 90%;
+            transform: scale(1);
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            max-height: 90vh;
+        }
+        #hint-modal-overlay .modal-content {
+            max-width: 450px;
+        }
+        #game-menu-modal-overlay .modal-content {
+            max-width: 350px; /* Narrower for single column */
+        }
+        #hint-modal-overlay.hidden .modal-content, #game-menu-modal-overlay.hidden .modal-content {
+            transform: scale(0.95);
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #374151; /* border-gray-700 */
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+        }
+        .modal-header h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #e5e7eb;
+            margin: 0;
+        }
+        #game-menu-modal-overlay .modal-header h3 {
+             font-size: 1.5rem; /* text-2xl */
+        }
+        #hint-modal-close-btn, #game-menu-modal-close-btn {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: #9ca3af;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0;
+        }
+        .modal-body {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            overflow-y: auto;
+            max-height: calc(90vh - 100px); /* Adjust based on header/padding */
+        }
+        .modal-body p {
+            margin: 0 0 1rem 0;
+            color: #d1d5db;
+        }
+        
+        .modal-menu-btn {
+            width: 100%;
+            background-color: #4b5563; /* bg-gray-600 */
+            color: white;
+            font-weight: 700; /* font-bold */
+            padding: 0.75rem 1rem;
+            border: none;
+            border-radius: 0.5rem;
+            transition: background-color 0.2s;
+            cursor: pointer;
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        .modal-menu-btn:hover {
+            background-color: #6b7280; /* hover:bg-gray-500 */
+        }
+
+        .modal-menu-btn.primary {
+            background-color: #2563eb; /* bg-blue-600 */
+        }
+        #new-game-btn { /* Make new game btn in modal primary */
+            background-color: #dc2626; /* bg-red-600 */
+        }
+        #new-game-btn:hover {
+             background-color: #b91c1c;
+        }
+
+        .modal-menu-btn.primary:hover {
+            background-color: #1d4ed8; /* hover:bg-blue-700 */
+        }
+
+        .modal-menu-btn:disabled, #new-game-btn:disabled {
+            background-color: #374151 !important; /* A darker disabled state */
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .modal-menu-btn.active {
+            background-color: #166534; /* green-700 */
+            color: #dcfce7; /* green-100 */
+        }
+        .modal-menu-btn.active:hover {
+            background-color: #15803d; /* green-600 */
+        }
+
+        #mini-board-container {
+            margin: 0 auto;
+            width: 100%;
+            max-width: 360px;
+        }
+        #mini-board-container canvas {
+            width: 100% !important;
+            height: auto !important;
+            border-radius: 0.375rem;
+            display: block;
+        }
+        
+        .single-line-control {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #374151;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.375rem;
+        }
+        .single-line-control label {
+            font-weight: 600;
+            color: #d1d5db;
+            margin-right: 1rem;
+            white-space: nowrap;
+        }
+        .single-line-control select {
+            width: 100%;
+            background-color: #4b5563;
+            border: 1px solid #6b7280;
+            color: white;
+            padding: 0.25rem;
+            border-radius: 0.25rem;
+            font-size: 0.875rem;
+            cursor: pointer;
+        }
+
+    </style>
+<link rel="stylesheet" href="/index.css">
+  <script type="module" crossorigin src="assets/index-CEScG588.js"></script>
+</head>
+<body>
+<div class="background-gradient"></div>
+
+<div class="main-content">
+    <header class="header">
+        <div class="container">
+            <div class="navbar">
+                <a href="/" class="logo">
+                    <span class="logo-accent">BP</span>GAMES
+                </a>
+                <nav class="desktop-nav">
+                    <div class="nav-links">
+                      <a id="open-game-menu-btn" class="nav-link">Menu</a>
+                    </div>
+                </nav>
+                <div class="desktop-auth">
+                    <a href="../login.html" class="nav-link">Login</a>
+                    <a href="../signup.html" class="btn btn-primary">Sign Up</a>
+                </div>
+                <div class="mobile-menu-toggle">
+                    <button id="mobile-menu-button" type="button" class="mobile-menu-btn" aria-controls="mobile-menu" aria-expanded="false">
+                        <span class="sr-only">Open main menu</span>
+                        <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero-section">
+            <div class="hero-bg-image">
+                <div class="hero-overlay"></div>
+            </div>
+            <div class="hero-content">
+                <div id="check-banner" class="hidden">CHECK!</div>
+    
+                <div id="app-container">
+                    <div id="game-container">
+                        <div class="board-and-controls-wrapper">
+                            <!-- Board Column -->
+                            <div id="board-column">
+                                <div id="captured-by-white" class="captured-pieces-container"></div>
+                                <div id="board-container">
+                                    <!-- Canvas will be inserted here by ChessboardUI -->
+                                </div>
+                                <div id="thinking-overlay" class="hidden">
+                                    <div class="thinking-text">Vera is thinking...</div>
+                                </div>
+                                <div id="captured-by-black" class="captured-pieces-container"></div>
+                                 <div id="game-status">Your turn</div>
+                            </div>
+                            <!-- Side Buttons -->
+                            <div id="board-side-buttons">
+                                <button id="undo-btn" class="action-btn board-side-btn" title="Undo Last Move">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" /></svg>
+                                </button>
+                                <button id="hint-btn" class="action-btn board-side-btn" title="Get a Hint">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" /></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+                <!-- Game Menu Modal -->
+                <div id="game-menu-modal-overlay" class="hidden">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 id="game-menu-title">Game Menu</h3>
+                            <button id="game-menu-modal-close-btn">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <button id="resume-game-btn" class="modal-menu-btn primary">Resume Game</button>
+                            <button id="new-game-btn" class="modal-menu-btn">New Game</button>
+
+                            <div id="save-input-container">
+                                <input type="text" id="save-name-input" placeholder="Enter save name...">
+                                <button id="confirm-save-btn">Save</button>
+                            </div>
+                            
+                            <div id="saved-games-container">
+                                <ul id="saved-games-list"></ul>
+                                <p class="no-saves hidden">No saved games found.</p>
+                            </div>
+
+                            <div class="difficulty-control">
+                                <label for="difficulty">Difficulty: <span id="difficulty-value">2</span></label>
+                                <input type="range" id="difficulty" name="difficulty" min="1" max="5" value="2">
+                                <div id="difficulty-warning" class="hidden">Warning: Higher difficulties may be very slow.</div>
+                            </div>
+                            
+                            <div class="theme-control single-line-control">
+                                <label for="theme-selector">Board Theme:</label>
+                                <select id="theme-selector">
+                                    <option value="#f0d9b5,#b58863">Classic Brown</option>
+                                    <option value="#e3e3e3,#7b7b7b">Cool Grey</option>
+                                    <option value="#d2b48c,#8b4513">Warm Wood</option>
+                                    <option value="#b0c4de,#4682b4">Blue Steel</option>
+                                    <option value="#a2d4ab,#448844">Green Fields</option>
+                                </select>
+                            </div>
+        
+                            <button id="toggle-threats-btn" class="modal-menu-btn" title="Toggle Threat Map">Toggle Threat Map: OFF</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Hint Modal -->
+                <div id="hint-modal-overlay" class="hidden">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 id="hint-title">Hint</h3>
+                            <button id="hint-modal-close-btn">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <p id="hint-description">Here is some helpful advice.</p>
+                            <div id="mini-board-container"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>    
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p class="footer-copyright">&copy; 2024 Breaking Point Games. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</div>
+
+<script>
+    // Simple mobile menu toggle script
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu'); // This element doesn't exist in the provided HTML, so this script might not fully work without it.
+    if (mobileMenuButton && mobileMenu) {
+        mobileMenuButton.addEventListener('click', () => {
+            const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
+            mobileMenuButton.setAttribute('aria-expanded', !isExpanded);
+            mobileMenu.classList.toggle('hidden');
+        });
+    }
+</script>
+<script src="/scripts/entry.js"></script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+pine_tree.png
+cyber_tree.png
+spinning_star.png
+soldier_enemy.png
+tank_enemy.png
+gun_turret.png
+sniper_turret.png
+machine_gun_turret.png
+empty_base.png (Note: This is an empty placeholder; a 1x1 transparent PNG will work fine.)
+tower_base.png
+machine_gun_base.png

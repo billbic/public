@@ -1,0 +1,445 @@
+/* --- ANIMATIONS & EFFECTS --- */
+@keyframes sparkle-effect {
+  0%, 100% { opacity: 0; transform: scale(0.5); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+.sparkle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background-color: #f0f0f0;
+  border-radius: 50%;
+  animation: sparkle-effect 2s ease-in-out infinite;
+  box-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #c0c0ff;
+}
+@keyframes golden-sparkle-effect {
+  0%, 100% { opacity: 0; transform: scale(0.5) rotate(0deg); }
+  50% { opacity: 1; transform: scale(1.2) rotate(180deg); }
+}
+.golden-sparkle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: #fef08a; /* yellow-200 */
+  border-radius: 50%;
+  animation: golden-sparkle-effect 1.5s ease-in-out infinite;
+  box-shadow: 0 0 6px #fde047, 0 0 12px #facc15, 0 0 18px #eab308;
+}
+@keyframes silver-sheen {
+  0% { transform: translateX(-100%) skewX(-30deg); opacity: 0; }
+  50% { opacity: 0.15; }
+  100% { transform: translateX(100%) skewX(-30deg); opacity: 0; }
+}
+.silver-sheen-effect {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, transparent 0%, #e5e7eb 50%, transparent 100%);
+    animation: silver-sheen 3s ease-in-out infinite;
+    pointer-events: none;
+}
+@keyframes iron-sheen {
+  0% { transform: translateX(-100%) skewX(-20deg); opacity: 0; }
+  50% { opacity: 0.1; }
+  100% { transform: translateX(100%) skewX(-20deg); opacity: 0; }
+}
+.iron-sheen-effect {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, transparent 0%, #9ca3af 50%, transparent 100%);
+    animation: iron-sheen 4s ease-in-out infinite;
+    pointer-events: none;
+}
+@keyframes golden-glow {
+  0%, 100% { box-shadow: 0 0 12px #facc15, 0 0 20px #facc15, inset 0 0 10px #fde047; }
+  50% { box-shadow: 0 0 20px #eab308, 0 0 30px #eab308, inset 0 0 15px #fef08a; }
+}
+.animate-golden-glow {
+    animation: golden-glow 3s ease-in-out infinite;
+}
+.stone-texture {
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23999999' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+@keyframes wave-effect {
+  0%, 100% { transform: scale(1, 1) translateY(0px); }
+  50% { transform: scale(1.05, 1.1) translateY(-3px); }
+}
+.animate-wave {
+    animation: wave-effect 3s ease-in-out infinite;
+}
+@keyframes ingredient-select-pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+.animate-select-pop {
+  animation: ingredient-select-pop 0.3s ease-out;
+}
+@keyframes electric-pulse {
+  0%, 100% { box-shadow: 0 0 10px #80deea, 0 0 20px #80deea, inset 0 0 15px #4dd0e1; opacity: 0.4; }
+  50% { box-shadow: 0 0 20px #80deea, 0 0 30px #4dd0e1, inset 0 0 25px #26c6da; opacity: 0.8; }
+}
+.animate-electric-pulse {
+  animation: electric-pulse 2.5s ease-in-out infinite;
+}
+@keyframes fiery-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.1); opacity: 0.9; }
+}
+.animate-fiery-pulse {
+  animation: fiery-pulse 1.5s ease-in-out infinite;
+}
+@keyframes swirling-mist {
+  0% { transform: rotate(0deg) scale(1); opacity: 0; }
+  25% { opacity: 0.5; }
+  50% { transform: rotate(180deg) scale(1.1); }
+  75% { opacity: 0.5; }
+  100% { transform: rotate(360deg) scale(1); opacity: 0; }
+}
+.swirling-mist-element {
+    position: absolute;
+    inset: 10%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(200, 200, 255, 0.2) 0%, rgba(200, 200, 255, 0) 60%);
+    animation: swirling-mist 8s linear infinite;
+}
+@keyframes cauldron-liquid-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.animate-cauldron-liquid-fade-in {
+    animation: 
+        cauldron-liquid-fade-in 5s ease-out forwards,
+        glow-intro 0.69s ease-out forwards,
+        glow-steady 2s infinite ease-in-out 0.69s;
+}
+.brewing-effects {
+    animation: glow-flash 0.4s infinite ease-in-out !important;
+}
+@keyframes fade-in-pop {
+  0% { opacity: 0; transform: scale(0.8); }
+  100% { opacity: 1; transform: scale(1); }
+}
+.animate-fade-in {
+  animation: fade-in-pop 0.5s ease-out;
+}
+.animate-modal-fade-in {
+  animation: fade-in-pop 1s ease-out;
+}
+@keyframes fade-in-backdrop {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.animate-fade-in-backdrop {
+  animation: fade-in-backdrop 0.3s ease-out;
+}
+
+/* --- Cauldron Animations --- */
+@keyframes cauldron-fade-out {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(0.8); }
+}
+.animate-cauldron-fade-out {
+  animation: cauldron-fade-out 0.5s ease-out forwards;
+}
+@keyframes cauldron-fade-in {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+.animate-cauldron-fade-in {
+  animation: cauldron-fade-in 0.5s ease-in forwards;
+}
+
+/* --- Brew Success Bubble Animation --- */
+@keyframes bubble-burst {
+  from {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 1;
+  }
+  to {
+    transform: translate(-50%, -50%) scale(2.5);
+    opacity: 0;
+  }
+}
+.bubble-burst-element {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(1px);
+  animation-name: bubble-burst;
+  animation-timing-function: ease-out;
+  animation-fill-mode: forwards;
+}
+
+
+/* --- Cauldron Liquid --- */
+.cauldron-liquid {
+  position: absolute;
+  bottom: 70%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 15%;
+  background: radial-gradient(circle at center, #00ff99 40%, #006644 100%);
+  border-radius: 50%;
+  overflow: hidden;
+  z-index: 5;
+  filter: blur(4px);
+  opacity: 0; /* Start invisible for fade-in */
+  transition: background 0.5s ease-in-out;
+}
+/* Initial glow fade-in */
+@keyframes glow-intro {
+  from { box-shadow: 0 0 5px #00ff9900; }
+  to { box-shadow: 0 0 10px var(--glow-color-1, #00ff99); }
+}
+/* Steady glow pulse */
+@keyframes glow-steady {
+  0%, 100% {
+    box-shadow: 0 0 10px var(--glow-color-1, #00ff99);
+  }
+  50% {
+    box-shadow: 0 0 20px var(--glow-color-1, #00ff99);
+  }
+}
+/* Flashing glow for brewing */
+@keyframes glow-flash {
+  0%, 100% { box-shadow: 0 0 10px var(--glow-color-1, #00ff99), 0 0 5px #fff; }
+  50% { box-shadow: 0 0 35px var(--glow-color-2, #adffde), 0 0 20px #fff; }
+}
+
+@keyframes rise {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100px) scale(0.5);
+    opacity: 0;
+  }
+}
+
+/* Skill Tree Animations */
+@keyframes skill-unlocked-glow {
+  0%, 100% { box-shadow: 0 0 8px #22c55e, 0 0 12px #22c55e; }
+  50% { box-shadow: 0 0 12px #22c55e, 0 0 20px #22c55e; }
+}
+.animate-skill-glow {
+  animation: skill-unlocked-glow 3s ease-in-out infinite;
+}
+@keyframes skill-unlockable-pulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 6px #a855f7; }
+  50% { transform: scale(1.03); box-shadow: 0 0 14px #a855f7; }
+}
+.animate-skill-pulse {
+  animation: skill-unlockable-pulse 2s ease-in-out infinite;
+}
+
+@keyframes subtle-glow {
+  0%, 100% { box-shadow: 0 0 8px #16a34a, 0 0 12px #16a34a; }
+  50% { box-shadow: 0 0 12px #22c55e, 0 0 20px #22c55e; }
+}
+.animate-subtle-glow {
+    animation: subtle-glow 2.5s ease-in-out infinite;
+}
+
+/* Color-specific Glows */
+@keyframes subtle-glow-green {
+  0%, 100% { box-shadow: 0 0 8px #16a34a, 0 0 12px #16a34a; }
+  50% { box-shadow: 0 0 12px #22c55e, 0 0 20px #22c55e; }
+}
+.animate-subtle-glow-green {
+    animation: subtle-glow-green 2.5s ease-in-out infinite;
+}
+
+@keyframes subtle-glow-purple {
+  0%, 100% { box-shadow: 0 0 8px #8b5cf6, 0 0 12px #8b5cf6; }
+  50% { box-shadow: 0 0 12px #a855f7, 0 0 20px #a855f7; }
+}
+.animate-subtle-glow-purple {
+    animation: subtle-glow-purple 2.5s ease-in-out infinite;
+}
+
+@keyframes subtle-glow-blue {
+  0%, 100% { box-shadow: 0 0 8px #2563eb, 0 0 12px #2563eb; }
+  50% { box-shadow: 0 0 12px #3b82f6, 0 0 20px #3b82f6; }
+}
+.animate-subtle-glow-blue {
+    animation: subtle-glow-blue 2.5s ease-in-out infinite;
+}
+
+@keyframes subtle-glow-orange {
+  0%, 100% { box-shadow: 0 0 8px #ea580c, 0 0 12px #ea580c; }
+  50% { box-shadow: 0 0 12px #f97316, 0 0 20px #f97316; }
+}
+.animate-subtle-glow-orange {
+    animation: subtle-glow-orange 2.5s ease-in-out infinite;
+}
+
+@keyframes subtle-glow-teal {
+  0%, 100% { box-shadow: 0 0 8px #0d9488, 0 0 12px #0d9488; }
+  50% { box-shadow: 0 0 12px #14b8a6, 0 0 20px #14b8a6; }
+}
+.animate-subtle-glow-teal {
+    animation: subtle-glow-teal 2.5s ease-in-out infinite;
+}
+
+@keyframes subtle-glow-indigo {
+  0%, 100% { box-shadow: 0 0 8px #4f46e5, 0 0 12px #4f46e5; }
+  50% { box-shadow: 0 0 12px #6366f1, 0 0 20px #6366f1; }
+}
+.animate-subtle-glow-indigo {
+    animation: subtle-glow-indigo 2.5s ease-in-out infinite;
+}
+
+@keyframes subtle-glow-yellow {
+  0%, 100% { box-shadow: 0 0 8px #d97706, 0 0 12px #d97706; }
+  50% { box-shadow: 0 0 12px #f59e0b, 0 0 20px #f59e0b; }
+}
+.animate-subtle-glow-yellow {
+    animation: subtle-glow-yellow 2.5s ease-in-out infinite;
+}
+
+@keyframes subtle-glow-yellow-dark {
+  0%, 100% { box-shadow: 0 0 8px #78350f, 0 0 12px #78350f; }
+  50% { box-shadow: 0 0 12px #92400e, 0 0 20px #92400e; }
+}
+.animate-subtle-glow-yellow-dark {
+    animation: subtle-glow-yellow-dark 2.5s ease-in-out infinite;
+}
+
+@keyframes subtle-glow-red {
+  0%, 100% { box-shadow: 0 0 8px #dc2626, 0 0 12px #dc2626; }
+  50% { box-shadow: 0 0 12px #ef4444, 0 0 20px #ef4444; }
+}
+.animate-subtle-glow-red {
+    animation: subtle-glow-red 2.5s ease-in-out infinite;
+}
+
+@keyframes subtle-glow-bright-yellow {
+  0%, 100% { box-shadow: 0 0 10px #fef08a, 0 0 15px #fef08a; }
+  50% { box-shadow: 0 0 15px #fde047, 0 0 25px #fde047; }
+}
+.animate-subtle-glow-bright-yellow {
+    animation: subtle-glow-bright-yellow 2.5s ease-in-out infinite;
+}
+
+/* Toast Animations */
+@keyframes toast-in {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+@keyframes toast-out {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+.toast-in {
+  animation: toast-in 0.5s forwards;
+}
+.toast-out {
+  animation: toast-out 0.5s forwards;
+}
+
+/* Research Property Glow */
+@keyframes property-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.5));
+    transform: scale(1);
+  }
+  50% {
+    filter: drop-shadow(0 0 10px rgba(139, 92, 246, 0.8));
+    transform: scale(1.2);
+  }
+}
+.animate-property-glow {
+  animation: property-glow 1.5s ease-in-out;
+}
+
+/* New Ingredient Glow */
+@keyframes new-item-glow {
+  0%, 100% {
+    box-shadow: 0 0 10px #fef08a, 0 0 15px #fef08a;
+    border-color: #fef08a;
+  }
+  50% {
+    box-shadow: 0 0 15px #fde047, 0 0 25px #fde047;
+    border-color: #fde047;
+  }
+}
+.animate-new-item-glow {
+  animation: new-item-glow 2s ease-in-out infinite;
+}
+
+/* Tutorial Glow */
+@keyframes subtle-glow-border {
+  0%, 100% {
+    border-color: #fef08a;
+    box-shadow: 0 0 10px #fef08a;
+  }
+  50% {
+    border-color: #fde047;
+    box-shadow: 0 0 15px #fde047;
+  }
+}
+.animate-tutorial-glow {
+  animation: subtle-glow-border 2s ease-in-out infinite;
+}
+
+/* Attention Flash */
+@keyframes flash-attention {
+    0%, 100% { box-shadow: none; }
+    15%, 45%, 75% { box-shadow: 0 0 15px #fde047; }
+    30%, 60%, 90% { box-shadow: none; }
+}
+.animate-flash-attention {
+    animation: flash-attention 2.5s ease-in-out;
+}
+
+
+/* Skill Tree Connectors */
+.skill-connector {
+  width: 2px;
+  height: 1.5rem; /* 24px */
+  background-color: #4a5568; /* gray-600 */
+  margin: 0.25rem auto;
+  transition: background-color 0.3s ease;
+}
+.skill-connector-unlocked {
+  background-color: #8b5cf6; /* purple-500 */
+  box-shadow: 0 0 8px #8b5cf6;
+}
+
+/* --- Ripple Effect --- */
+@keyframes ripple-effect {
+  from {
+    transform: scale(0);
+    opacity: 0.7;
+  }
+  to {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+.ripple-element {
+  position: absolute;
+  top: 30%; /* Start inside the liquid */
+  left: 50%;
+  transform-origin: center;
+  border-radius: 50%;
+  border: 3px solid #e9d5ff; /* light purple */
+  width: 50%;
+  height: 50%;
+  pointer-events: none;
+  animation: ripple-effect 0.7s ease-out forwards;
+  transform: translateX(-50%);
+}
